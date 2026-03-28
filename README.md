@@ -54,7 +54,7 @@ Starting connection monitor → target=example.com:443, total=1000, cps=50
 
 ---
 
-## 🔧 Configuration
+##  🔧 Configuration
 
 Update the following variables in `connection_monitor.py`:
 
@@ -68,31 +68,40 @@ TARGET_CPS = 50
 KEEPALIVE_INTERVAL = 5
 BATCH_SIZE = 200
 ```
-## Usage
+##  Usage
 python3 connection_monitor.py
-## 📌 Use Cases
+--- 
+
+##  📌 Use Cases
 Cloud Object Storage (COS) endpoint validation
 Large-scale persistent connection testing
 Network reliability and resilience validation
 Observability testing for long-lived sessions
 Infrastructure performance validation under sustained load
-## 🧠 Background
+--- 
+
+##  🧠 Background
 
 This toolkit is derived from real-world cloud validation scenarios involving:
 
 Large-scale connection testing
 Persistent session monitoring
 Debugging connection stability issues in distributed environments
-## 🔭 Future Enhancements
+--- 
+##  🔭 Future Enhancements
 Metrics export integration with Telegraf
 Time-series analysis using InfluxDB
 Visualization dashboards via Grafana
 Adaptive keepalive tuning
 Distributed execution across multiple nodes
-## ⚠️ Disclaimer
+--- 
+
+##  ⚠️ Disclaimer
 
 This tool is intended for testing and validation purposes only.
 Ensure proper authorization before testing against any endpoints.
+
+--- 
 
 ## 👨‍💻 Author
 
