@@ -7,7 +7,7 @@ It enables engineers to validate connection stability, observe keepalive behavio
 
 ---
 
-## 🎯 Key Capabilities
+## 💯 Key Capabilities
 
 - Establish and maintain thousands of concurrent TCP/TLS connections  
 - Controlled connection rate (Connections Per Second - CPS)  
@@ -31,30 +31,33 @@ This toolkit addresses these limitations by enabling persistent connection simul
 ---
 
 ## 🧩 Architecture
-Connection Engine → Persistent TCP/TLS Sessions
-↓
-Keepalive Loop → Periodic HTTP HEAD Requests
-↓
-Monitoring Layer → Active / Dropped / Retry Tracking
 
+```
+Connection Engine → Persistent TCP/TLS Sessions
+        ↓
+Keepalive Loop → Periodic HTTP HEAD Requests
+        ↓
+Monitoring Layer → Active / Dropped / Retry Tracking
+```
 
 ---
 
 ## 📊 Sample Output
 
-
+```
 Starting connection monitor → target=example.com:443, total=1000, cps=50
 
 [+] Conn 1 ESTABLISHED
 [+] Conn 2 ESTABLISHED
 ...
+
 [INFO] Running keepalive on 1000 connections
 [STATS] Active=998 Sent=1000 Dropped=2
-
+```
 
 ---
 
-##  🔧 Configuration
+## 🔧 Configuration
 
 Update the following variables in `connection_monitor.py`:
 
@@ -68,44 +71,55 @@ TARGET_CPS = 50
 KEEPALIVE_INTERVAL = 5
 BATCH_SIZE = 200
 ```
-##  Usage
+
+---
+
+## ▶️ Usage
+
+Run the main script:
+
+```bash
 python3 connection_monitor.py
---- 
+```
 
-##  📌 Use Cases
-Cloud Object Storage (COS) endpoint validation
-Large-scale persistent connection testing
-Network reliability and resilience validation
-Observability testing for long-lived sessions
-Infrastructure performance validation under sustained load
---- 
+---
 
-##  🧠 Background
+## 📌 Use Cases
+
+- Cloud Object Storage (COS) endpoint validation  
+- Large-scale persistent connection testing  
+- Network reliability and resilience validation  
+- Observability testing for long-lived sessions  
+- Infrastructure performance validation under sustained load  
+
+---
+
+## 🧺 Background
 
 This toolkit is derived from real-world cloud validation scenarios involving:
 
-Large-scale connection testing
-Persistent session monitoring
-Debugging connection stability issues in distributed environments
---- 
-##  🔭 Future Enhancements
-Metrics export integration with Telegraf
-Time-series analysis using InfluxDB
-Visualization dashboards via Grafana
-Adaptive keepalive tuning
-Distributed execution across multiple nodes
---- 
+- Large-scale connection testing  
+- Persistent session monitoring  
+- Debugging connection stability issues in distributed environments  
 
-##  ⚠️ Disclaimer
+---
+
+## 🔭 Future Enhancements
+
+- Metrics export integration with Telegraf  
+- Time-series analysis using InfluxDB  
+- Visualization dashboards via Grafana  
+- Adaptive keepalive tuning  
+- Distributed execution across multiple nodes  
+
+---
+
+## ⚠️ Disclaimer
 
 This tool is intended for testing and validation purposes only.
 Ensure proper authorization before testing against any endpoints.
 
---- 
-
-## 👨‍💻 Author
+👨‍💻 Author
 
 Radhakrishnan Balasubramanian
-Cloud & Networking Engineer | CCIE | Security Enthusiast 
----
-
+Cloud & Networking Engineer | CCIE | Security Enthusiast (CEH / CPENT)
