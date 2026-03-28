@@ -1,59 +1,102 @@
 # Cloud Connection Monitoring Toolkit
 
-## Overview
-This project provides a lightweight toolkit to simulate and monitor large-scale persistent TCP/TLS connections to cloud endpoints (such as object storage services).
+## 🚀 Overview
+The Cloud Connection Monitoring Toolkit is a lightweight utility designed to simulate and monitor large-scale persistent TCP/TLS connections to cloud endpoints (such as object storage services).
 
-It is designed to validate connection stability, observe keepalive behavior, and detect retries or drops under sustained load.
+It enables engineers to validate connection stability, observe keepalive behavior, and detect retries or drops under sustained load — a gap not effectively addressed by traditional benchmarking tools.
 
 ---
 
-## Key Capabilities
-- Establish thousands of concurrent TCP/TLS connections  
-- Controlled connection rate (connections per second)  
+## 🎯 Key Capabilities
+
+- Establish and maintain thousands of concurrent TCP/TLS connections  
+- Controlled connection rate (Connections Per Second - CPS)  
 - Periodic keepalive using HTTP HEAD requests  
-- Batch-based processing for scalability  
-- Non-blocking socket handling  
-- Real-time connection monitoring and statistics  
+- Batch-based processing for scalable execution  
+- Non-blocking socket handling for efficiency  
+- Real-time monitoring of connection health (active, dropped, retries)  
 
 ---
 
-## Problem Statement
-Traditional tools like wrk and iperf are not designed for long-lived connection validation or monitoring keepalive behavior at scale.
+## ❗ Problem Statement
 
-This toolkit addresses that gap by enabling persistent connection testing and observability.
+Traditional tools like `wrk` and `iperf` are primarily designed for short-lived throughput testing and do not provide visibility into:
+
+- Long-lived connection stability  
+- TCP keepalive behavior  
+- Connection retries and drops at scale  
+
+This toolkit addresses these limitations by enabling persistent connection simulation and observability for cloud environments.
 
 ---
 
-## Sample Output
+## 🧩 Architecture
+Connection Engine → Persistent TCP/TLS Sessions
+↓
+Keepalive Loop → Periodic HTTP HEAD Requests
+↓
+Monitoring Layer → Active / Dropped / Retry Tracking
+
+
+---
+
+## 📊 Sample Output
+
+
 Starting connection monitor → target=example.com:443, total=1000, cps=50
+
 [+] Conn 1 ESTABLISHED
 [+] Conn 2 ESTABLISHED
 ...
-
 [INFO] Running keepalive on 1000 connections
 [STATS] Active=998 Sent=1000 Dropped=2
 
----
-
-## Use Cases
-- Cloud Object Storage endpoint validation  
-- Long-lived connection testing  
-- Network reliability and resilience testing  
-- Observability validation for persistent sessions  
 
 ---
 
-## Background
-This tool is derived from real-world cloud validation scenarios involving large-scale connection testing and monitoring challenges in distributed environments.
+## 🔧 Configuration
 
+Update the following variables in `connection_monitor.py`:
+
+```python
+TARGET_HOST = "example.com"
+PORT = 443
+HOST_HEADER = "example.com"
+
+TOTAL_CONN = 1000
+TARGET_CPS = 50
+KEEPALIVE_INTERVAL = 5
+BATCH_SIZE = 200
+```
+## Usage
+python3 connection_monitor.py
+## 📌 Use Cases
+Cloud Object Storage (COS) endpoint validation
+Large-scale persistent connection testing
+Network reliability and resilience validation
+Observability testing for long-lived sessions
+Infrastructure performance validation under sustained load
+## 🧠 Background
+
+This toolkit is derived from real-world cloud validation scenarios involving:
+
+Large-scale connection testing
+Persistent session monitoring
+Debugging connection stability issues in distributed environments
+## 🔭 Future Enhancements
+Metrics export integration with Telegraf
+Time-series analysis using InfluxDB
+Visualization dashboards via Grafana
+Adaptive keepalive tuning
+Distributed execution across multiple nodes
+## ⚠️ Disclaimer
+
+This tool is intended for testing and validation purposes only.
+Ensure proper authorization before testing against any endpoints.
+
+## 👨‍💻 Author
+
+Radhakrishnan Balasubramanian
+Cloud & Networking Engineer | CCIE | Security Enthusiast 
 ---
 
-## Future Enhancements
-- Metrics export to Telegraf  
-- Integration with InfluxDB and Grafana  
-- Adaptive keepalive tuning  
-
----
-
-## Disclaimer
-This tool is intended for testing and validation purposes only. Ensure proper authorization before testing against any endpoints.
