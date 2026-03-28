@@ -1,0 +1,14 @@
+Starting connection monitor → target=example.com:443, total=1000, cps=50
+
+[+] Conn 1 ESTABLISHED
+[+] Conn 2 ESTABLISHED
+[+] Conn 3 ESTABLISHED
+...
+
+[INFO] All connections established
+
+[INFO] Running keepalive on 1000 connections
+[STATS] Active=998 Sent=1000 Dropped=2
+
+[INFO] Running keepalive on 998 connections
+[STATS] Active=997 Sent=998 Dropped=1
