@@ -122,4 +122,4 @@ Ensure proper authorization before testing against any endpoints.
 👨‍💻 Author
 
 Radhakrishnan Balasubramanian
-Cloud & Networking Engineer | CCIE | Security Enthusiast (CEH / CPENT)
+Cloud & Networking Engineer | CCIE 
