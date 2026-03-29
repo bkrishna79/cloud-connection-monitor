@@ -1,0 +1,78 @@
+---
+- name: Run fping Test
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    test_case: "51131"
+  tasks:
+    - name: Install fping
+      apt:
+        name: fping
+        state: present
+    - name: Install parallel
+      apt:
+        name: parallel
+        state: present
+    - name: copy the destips file
+      copy:
+        src: destips
+        dest: /tmp/destips
+        mode: 0777
+    - name: Set name of the directory
+      set_fact:
+        folder_name_with_date: "{{ test_case }}-fping-test-{{ lookup('pipe', 'date +%m-%d-%Y--%H') }}"
+    - name: Create directory
+      file:
+        state: directory
+        path: /tmp/{{ folder_name_with_date }}
+        mode: 0755
+    - name: Run fping test
+      #command: "parallel --will-cite --jobs 250 --res /tmp/{{ inventory_hostname }}-fping-test.csv fping -a -A -c 100 -D -Q 30 -r 0 -o ::::  /tmp/destips"
+      #command: "parallel --will-cite --jobs 250 --res /tmp/{{ inventory_hostname }}-fping-test.csv fping -a -A -c 600 -D -Q 1 -r 0 -o ::::  /tmp/destips"
+      shell: "nohup parallel --will-cite --jobs 120 --res /tmp/{{ inventory_hostname }}-fping-test.csv fping -a -A -c 600 -D -Q 1 -r 0 -o ::::  /tmp/destips"
+      async: 700
+      poll: 0
+      register: result
+    - debug:
+        msg: "Result: {{result}}"
+    - name: pause to complete the pings
+      pause:
+        seconds: 700 
+    - name: Change permission of a file
+      file:
+        path: "/tmp/{{ inventory_hostname }}-fping-test.csv"
+        mode: "777"
+    - name: save the output files
+      synchronize:
+        src: "/tmp/{{ inventory_hostname }}-fping-test.csv"
+        dest: "/tmp/{{folder_name_with_date}}/{{ inventory_hostname }}-traffic-result.txt"
+        mode: pull
+      vars:
+        ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -i /root/.ssh/systest"
+        ansible_rsync_opts:
+          - "--ignore-errors"
+          - "--no-perms"
+          - "-e ssh -i /root/.ssh/rias-e2e-ssh-200-VPCs-0614"
+      delegate_to: localhost
+        #mode: pull
+        #rsync_opts:
+        #   - "-e ssh -i /root/.ssh/rias-e2e-ssh-200-VPCs-0614"
+      delegate_to: localhost
+- hosts: control
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  become: true
+  gather_facts: false
+  tasks:
+    - name: check test results
+      shell: grep outage "/tmp/{{ folder_name_with_date }}/*" |  egrep -o "outage\(ms\) = ([0-9]+)" | awk 'BEGIN {cnt = 0} {if ($3 >= 1000) { cnt=cnt+1 }} END {print "packet loss seen in " cnt " flows"}'
+      register: result
+    - name: Show result
+      when: inventory_hostname in groups['control']
+      debug:
+        msg: "{{ ['Packet loss checks!'] + result.stdout_lines }}"
+    - name: what is my variables structure??
+      debug:
+        msg: "{{ folder_name_with_date }}"
+

@@ -1,0 +1,5 @@
+inventory.ini
+inventory.yml
+*.pem
+*.key
+results/

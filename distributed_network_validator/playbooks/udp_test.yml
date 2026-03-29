@@ -1,0 +1,47 @@
+---
+- hosts: iperf3_servers
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install iperf3 package
+      apt:
+        name: iperf3
+        state: present
+    - name: Run iperf3 server on all the server VSIs
+      command: iperf3 -s -p 5001 -D
+      async: 0
+      poll: 0
+      register: iperf_output
+    - name: Display iperf3 output
+      debug:
+        var: iperf_output.stdout_lines
+- hosts: iperf3_clients
+  gather_facts: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install iperf3 package
+      apt:
+        name: iperf3
+        state: present
+    - name: set iperf server
+      set_fact: iperf_server={{ groups['iperf3_servers'][groups['iperf3_clients'].index(inventory_hostname)] }}
+    - name: set output base
+      set_fact: output_base="{{ ansible_date_time.date }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}_{{ iperf_server }}.out"
+    - name: set iperf out
+      set_fact: iperf_out=iperf_{{ output_base }}
+    - name: start client iperf
+      shell: "iperf3 --client {{ iperf_server }} -p 5001 -tinf -u -b 1G >> {{ iperf_out }}"
+    - name: grab iperf output
+      fetch: src={{ iperf_out }} dest=results/ flat=yes
+
