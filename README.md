@@ -83,6 +83,18 @@ python3 connection_monitor.py
 ```
 
 ---
+## 🔧 Toolkit Components
+
+- **connection_monitor.py**  
+  Simulates and maintains large-scale persistent TCP/TLS connections and tracks connection health  
+
+- **endpoint_validator.py**  
+  Continuously validates HTTP endpoints and measures latency and status  
+
+- **metrics_logger.py**  
+  Generates and logs metrics for integration with observability pipelines
+
+--- 
 
 ## 📌 Use Cases
 
