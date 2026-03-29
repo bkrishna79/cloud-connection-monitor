@@ -33,11 +33,18 @@ Supports TCP, UDP, and ICMP validation and collects results centrally for analys
 ansible-playbook -i inventory/inventory.ini playbooks/tcp_test.yml
 ansible-playbook -i inventory/inventory.ini playbooks/udp_test.yml
 ansible-playbook -i inventory/inventory.ini playbooks/icmp_test.yml
-
-Output
+```
+## 📊 Output
 
 All results are collected under:
 
 results/
+
+## 📌 Use Cases
+Cloud network validation
+Multi-zone performance testing
+Packet loss detection
+Customer PoC environments
+
 
 
