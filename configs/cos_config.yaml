@@ -1,0 +1,7 @@
+endpoint: https://s3.us-south.cloud-object-storage.appdomain.cloud
+bucket: my-bucket
+access_key: YOUR_ACCESS_KEY
+secret_key: YOUR_SECRET_KEY
+connections: 100
+sleep: 1
+object_key: test_file.dat
